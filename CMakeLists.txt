@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(rest_api_project VERSION 0.1.0 LANGUAGES C CXX)
+
+include(CTest)
+enable_testing()
+
+add_executable(test_project_cli main.cpp)
+add_library(test_project_cli library_cli.cpp)
+find_package(OpenSSL REQUIRED)
+if(OPENSSL_FOUND)
+    set(HTTPLIB_IS_USING_OPENSSL TRUE)
+endif()
+target_link_libraries(test_project_cli PRIVATE cpprestsdk::cpprest)
+target_link_libraries(test_project_cli PRIVATE library_cli)
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
